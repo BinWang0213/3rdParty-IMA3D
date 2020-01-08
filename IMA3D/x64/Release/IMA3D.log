@@ -1,0 +1,9 @@
+﻿  IMA3D.cpp
+IMA3D.cpp(294): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  Generating code
+  2 of 144 functions ( 1.4%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  IMA3D.vcxproj -> C:\Users\PoreSimPC_New\Downloads\IMA3d\IMA3D\x64\Release\IMA3D.exe
+  IMA3D.vcxproj -> C:\Users\PoreSimPC_New\Downloads\IMA3d\IMA3D\x64\Release\IMA3D.pdb (Full PDB)
