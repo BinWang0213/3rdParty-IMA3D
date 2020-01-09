@@ -452,12 +452,6 @@ ByteVolume *ByteVolume_ReadVTK(char* filename)
 		if (buf[0] != '#') break;
 	}
 
-	for (;;)
-	{
-		fgets(buf, 1024, f);
-		if (buf[0] != '#') break;
-	}
-
 	if (!strcmp(buf, "BINARY\n")) bin = true;
 	else if (!strcmp(buf, "ASCII\n")) bin = false;
 	else
