@@ -67,6 +67,7 @@ static int			gamma_val = GAMMA;
 static IntVolume*	ft;
 static ByteVolume*	indata;
 static char			input_file[MAXSTR];
+static char			output_file[MAXSTR];
 static char*		basefilename;
 static char			basename[MAXSTR];
 static char			skel_file[MAXSTR];
@@ -260,6 +261,7 @@ int main(int argc, const char **argv)
 	int i;
 	int x, y, z;
 	int infile = -1;
+	int outfile = -1;
 	int gammavalue = -1;
 	int xdim, ydim, zdim;
 	BYTE min, max;
@@ -269,7 +271,7 @@ int main(int argc, const char **argv)
 	for (i = 1; i<argc; i++)
 	{
 		if (strcmp(argv[i], "--help") == 0) {
-			printf("\nUsage: %s INFILE [-g gamma]\n", argv[0]);
+			printf("\nUsage: %s INFILE [-g gamma] -o OUTFILE\n", argv[0]);
 			printf("INFILE is the VTK file (unsigned char ()) to use as input.\n");
 			printf("gamma is a value for the pruning parameter (default=1)\n");
 			printf("gamma>1: constant pruning; gamma<1: linear pruning; gamma=0: square-root pruning.\n");
@@ -282,6 +284,13 @@ int main(int argc, const char **argv)
 			}
 			else printf("Missing value for gamma.\n");
 		}
+		else if (strcmp(argv[i], "-o") == 0) {
+			if (i + 1<argc) {
+				outfile = i + 1;
+				i++;
+			}
+			else printf("Missing value for output file name.\n");
+		}
 		else infile = i;
 	}
 
@@ -289,11 +298,17 @@ int main(int argc, const char **argv)
 		printf("Missing input file_name. Use '%s --help' for full help.\n", argv[0]);
 		return 0;
 	}
+	if (outfile == -1) {
+		printf("Missing output file_name. Use '%s --help' for full help.\n", argv[0]);
+		return 0;
+	}
 
 	if (gammavalue != -1)
 		gamma_val = atof(argv[gammavalue]);
 
 	strcpy(input_file, argv[infile]);
+
+	strcpy(output_file, argv[outfile]);
 
 	basefilename = basename_no_ext(input_file, "vtk");
 
@@ -337,9 +352,9 @@ int main(int argc, const char **argv)
 			}
 
 	// Write skeleton data
-	std::string output_fname = std::string(basefilename) + "_skel.vtk";
-	ByteVolume_WriteVTK(indata, output_fname.c_str());
-	printf("Skeleton Output = %s", output_fname.c_str());
+	//std::string output_fname = std::string(basefilename) + "_skel.vtk";
+	ByteVolume_WriteVTK(indata, output_file);
+	printf("Skeleton Output = %s", output_file);
 
 	// Cleanup
 	ByteVolume_Delete(indata);
